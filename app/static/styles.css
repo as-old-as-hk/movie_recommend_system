@@ -8,19 +8,26 @@
 div.post-tabs {
     margin-top: 16px;
 }
-ul.posts {
+ul.movies {
     list-style-type: none;
     padding: 0px;
     margin: 16px 0px 0px 0px;
-    border-top: 1px solid #e0e0e0;
+    border-top: 16px solid #e0e0e0;
+    background-color: red;
 }
 div.post-tabs ul.posts {
     margin: 0px;
     border-top: none;
 }
-ul.posts li.post {
-    padding: 8px;
-    border-bottom: 1px solid #e0e0e0;
+div.color{
+    
+    background-color: red;
+}
+}
+ul.movies li.movie {
+    padding: 32px;
+    margin-left: 48px;
+    min-height: 48px;
 }
 ul.posts li.post:hover {
     background-color: #f0f0f0;
@@ -31,7 +38,7 @@ div.post-date {
 div.post-author {
     font-weight: bold;
 }
-div.post-thumbnail {
+div.movie-thumbnail {
     position: absolute;
 }
 div.post-content {

@@ -2,7 +2,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
 
-{% block title %}sakula{% endblock %}
+{% block title %}sakura{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
@@ -11,13 +11,15 @@
 
 <div class="post-tabs">
     <ul class="nav nav-tabs">
-        <li{% if not show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_all') }}">全部</a></li>
+        <li{% if show_all %} class="active"{% endif %}><a href="{{ url_for('.show_all') }}">全部</a></li>
         {% if current_user.is_authenticated %}
-        <li{% if show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_followed') }}">基于用户推荐</a></li>
-        <li{% if show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_followed') }}">基于收藏推荐</a></li>
+        <li{% if show_userrecommend %} class="active"{% endif %}><a href="{{ url_for('.show_userrecommend') }}">基于用户推荐</a></li>
+        <li{% if show_itemrecommend %} class="active"{% endif %}><a href="{{ url_for('.show_itemrecommend') }}">基于收藏推荐</a></li>
         {% endif %}
     </ul>
-    {% include '_posts.html' %}
+    <img src="static/movie_image/1.jpg"  width="300" height="450">
+    <img src="static/movie_image/2.jpg"  width="300" height="450">
+    {% include '_movies.html' %}
 </div>
 {% if pagination %}
 <div class="pagination">
