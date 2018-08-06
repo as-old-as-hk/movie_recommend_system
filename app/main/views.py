@@ -185,19 +185,20 @@ def recommendItems(data,givenperson,num =5 ,simscore = sim_pearson):
 @main.route('/', methods=['GET', 'POST'])
 def index():
     page = request.args.get('page', 1, type=int)
-    show_all = True
+    show_all=True
     show_userrecommend = False
     show_itemrecommend = False
     if current_user.is_authenticated:
-        show_userrecommend = bool(request.cookies.get('userrecommend', ''))
-        show_itemrecommend = bool(request.cookies.get('itemrecommend', ''))
+        show_userrecommend = bool(request.cookies.get('show_userrecommend', ''))
+        show_itemrecommend = bool(request.cookies.get('show_itemrecommend', ''))
+        show_all= bool(request.cookies.get('show_all'))
 
-    if show_all:
+    if show_userrecommend:
         query = Movie.query
-    elif show_userrecommend:
-        query = current_user.followed_posts
+    elif show_itemrecommend:
+        query = Movie.query
     else:
-        pass
+        query = Movie.query
         
     pagination = query.paginate(
         page, per_page=current_app.config['FLASKY_MOVIES_PER_PAGE'],
