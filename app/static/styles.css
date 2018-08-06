@@ -124,7 +124,7 @@ div.movie1 {
     margin: 5px;
     border: 1px solid #ccc;
     float: left;
-    width: 300px;
+    width: 350px;
 }
 div.movie:hover {
     border: 1px solid #777;
@@ -138,4 +138,17 @@ div.movie:hover {
 div.desc {
     padding: 3px;
     text-align: center;
+}
+div.evalueimg{
+    width: 400px;
+}
+div.evaluate{
+    width:1000px;   
+}
+div.moviename{
+   text-align: center;
+   font-size: 30px;
+}
+div.score{
+    font-size: 20px;
 }
