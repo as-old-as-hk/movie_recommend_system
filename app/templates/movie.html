@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
 
 {% block title %}sakura{% endblock %}
 
@@ -11,6 +13,9 @@
     </div>
     <div class="score">
     	<b>请输入评分：</b>
+    </div>
+    <div class="col-md-4">
+    {{ wtf.quick_form(form) }}
     </div>
 
 {% endblock %}

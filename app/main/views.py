@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from flask_sqlalchemy import get_debug_queries
 from . import main
 from .forms import EditProfileForm, EditProfileAdminForm, PostForm,\
-    CommentForm
+    CommentForm,EvaluateForm
 from .. import db
 from ..models import Permission, Role, User, Post, Comment,Ranking,Movie
 from ..decorators import admin_required, permission_required
@@ -447,4 +447,5 @@ def moderate_disable(id):
 @login_required
 def movie(movieid):
     movie=Movie.query.filter_by(id=movieid).first()
-    return render_template('movie.html',movie=movie)
+    form=EvaluateForm()
+    return render_template('movie.html',movie=movie,form=form)

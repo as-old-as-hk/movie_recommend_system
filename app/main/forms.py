@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, BooleanField, SelectField,\
-    SubmitField
+    SubmitField,RadioField,IntegerField
 from wtforms.validators import DataRequired, Length, Email, Regexp
 from wtforms import ValidationError
 from flask_pagedown.fields import PageDownField
@@ -58,4 +58,8 @@ class PostForm(FlaskForm):
 
 class CommentForm(FlaskForm):
     body = StringField('Enter your comment', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+class EvaluateForm(FlaskForm):
+    score=IntegerField('评分：',validators=[DataRequired()])
     submit = SubmitField('Submit')
