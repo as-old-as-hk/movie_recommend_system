@@ -442,3 +442,8 @@ def moderate_disable(id):
                             page=request.args.get('page', 1, type=int)))
 
 
+@main.route('/movie/<movieid>')
+@login_required
+def movie(movieid):
+    movie=Movie.query.filter_by(id=movieid).first()
+    return render_template('movie.html',movie=movie)

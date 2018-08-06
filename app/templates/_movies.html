@@ -1,8 +1,8 @@
 {% for movie in movies %}
     <div class="movie">
-
-        <img class="img-rounded" src="static/movie_image/{{movie.id}}.jpg " width="275" height="450">
-        <div class="desc"><b>{{movie.moviename}}</b></div>
-
+        <a href="{{url_for('.movie',movieid=movie.id)}}">
+            <img class="img-rounded" src="static/movie_image/{{movie.id}}.jpg " width="275" height="450">
+            <div class="desc"><b>{{movie.moviename}}</b></div>
+        </a>
     </div>          
 {% endfor %}

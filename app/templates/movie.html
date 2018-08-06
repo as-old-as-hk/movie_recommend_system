@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}sakura{% endblock %}
+
+{% block page_content %}
+
+    <img class="img-rounded" src="{{ url_for('static', filename='movie_image')}}/{{movie.id}}.jpg" width="275" height="450" alt="test">
+
+<b>为什么无法显示图片啊。。</b>
+<img class="img-rounded" src="static/movie_image/2.jpg " width="275" height="450">
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
+{% endblock %}
