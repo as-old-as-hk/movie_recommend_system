@@ -61,5 +61,5 @@ class CommentForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class EvaluateForm(FlaskForm):
-    score=IntegerField('评分：',validators=[DataRequired()])
+    score=IntegerField('请输入评分：',validators=[DataRequired()])
     submit = SubmitField('Submit')
