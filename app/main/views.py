@@ -200,7 +200,7 @@ def index():
         pass
         
     pagination = query.paginate(
-        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+        page, per_page=current_app.config['FLASKY_MOVIES_PER_PAGE'],
         error_out=False)
     movies = pagination.items
     return render_template('index.html', movies=movies,
@@ -440,3 +440,5 @@ def moderate_disable(id):
     db.session.commit()
     return redirect(url_for('.moderate',
                             page=request.args.get('page', 1, type=int)))
+
+

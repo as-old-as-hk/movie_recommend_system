@@ -112,3 +112,24 @@ div.flask-pagedown-preview h3 {
 .table.followers tr {
     border-bottom: 1px solid #e0e0e0;
 }
+
+
+div.movie {
+    margin: 5px;
+    border: 1px solid #ccc;
+    float: left;
+    width: 275px;
+}
+div.movie:hover {
+    border: 1px solid #777;
+}
+
+/*div.movie img {
+    width: 100%;
+    height: auto;
+}*/
+
+div.desc {
+    padding: 3px;
+    text-align: center;
+}

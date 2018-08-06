@@ -1,7 +1,8 @@
 {% for movie in movies %}
-    <div>
-            <img class="img-rounded profile-thumbnail" src="static/movie_image/{{movie.id}}.jpg " width="300" height="450">
-    </div>
-    <div class= "color">{{movie.movie_name}}</div>
+    <div class="movie">
 
+        <img class="img-rounded" src="static/movie_image/{{movie.id}}.jpg " width="275" height="450">
+        <div class="desc"><b>{{movie.moviename}}</b></div>
+
+    </div>          
 {% endfor %}
