@@ -3,6 +3,7 @@ from flask import render_template, redirect, url_for, abort, flash, request,\
 from flask_login import login_required, current_user
 from flask_sqlalchemy import get_debug_queries
 from . import main
+from math import sqrt
 from .forms import EditProfileForm, EditProfileAdminForm, PostForm,\
     CommentForm,EvaluateForm
 from .. import db
@@ -33,12 +34,23 @@ def server_shutdown():
 
 # modify
 def create_data():
-    ranks=Ranking.query()
+    ranks=Ranking.query
     data ={}
     for rank in ranks:
         data.setdefault(rank.user_id,{})
-        data[rank.user_.id][rank.movie_id]=rank.rank
+        data[rank.user_id][rank.movie_id]=rank.rank
     return data
+
+
+def sim_distance(data,person1,person2):
+    '''欧氏距离求相似度，距离越大，越相似'''
+    commonmovies = [ movie for movie in data[person1] if movie in data[person2]] 
+    if len(commonmovies)== 0: return 0 
+    #平方和
+    sumSq =sum([pow(data[person1][movie] -data[person2][movie],2) for movie in commonmovies ] )
+    #使最终结果是，越相似，距离越大。所以将上面距离取倒数即可
+    sim = 1/(1+ sqrt(sumSq))
+    return sim 
 
 def transformdata(data):
     '''
@@ -95,6 +107,9 @@ def sim_pearson(data,person1,person2):
     
     return num/den
 
+def lll(data):
+    return data[0]
+
 #为单个电影物品返回最匹配结果
 def topmatches(data,givenperson ,returnernum = 5,simscore = sim_pearson):
     '''
@@ -105,7 +120,7 @@ def topmatches(data,givenperson ,returnernum = 5,simscore = sim_pearson):
     #建立最终结果列表
     usersscores =[(simscore(data,givenperson,other),other) for other in data if other != givenperson ]
     #对列表排序
-    usersscores.sort(cmp=None, key=None, reverse=True)
+    usersscores.sort(key=lll,reverse=True)
     
     return usersscores[0:returnernum]
 
@@ -194,8 +209,15 @@ def index():
         show_all= bool(request.cookies.get('show_all'))
 
     if show_userrecommend:
+        data=create_data()
+
         query = Movie.query
     elif show_itemrecommend:
+        data=create_data()
+        itemsAllsim = calSimilarItems(data)
+        # item=1
+        # items=getrecommendations(data,current_user.id,itemsAllsim)
+        # return redirect(url_for('.itemrecommend', userid=current_user.id,datas=items))
         query = Movie.query
     else:
         query = Movie.query
@@ -443,9 +465,37 @@ def moderate_disable(id):
                             page=request.args.get('page', 1, type=int)))
 
 
-@main.route('/movie/<movieid>')
+@main.route('/movie/<movieid>',methods=['GET', 'POST'])
 @login_required
 def movie(movieid):
     movie=Movie.query.filter_by(id=movieid).first()
     form=EvaluateForm()
+    if form.validate_on_submit():
+        if Ranking.query.filter_by(movie_id=movie.id,user_id=current_user.id).first():
+            flash('您已经打过分.')
+        else:
+            rank=Ranking()
+            rank.user_id=current_user.id+100000
+            rank.movie_id=movie.id
+            rank.rank=form.score.data
+            db.session.add(rank)
+            db.session.commit()
+            flash('您已经打分.')
+        return redirect(url_for('.movie', movieid=movie.id))
+    form.score.data = 0
     return render_template('movie.html',movie=movie,form=form)
+
+@main.route('/itemrecommend/<userid>')
+@login_required
+def itemrecommend(userid,datas):
+
+    if datas.count()>=8:
+        movies=Movie.query.filter(_or(Movie.id==datas[0][1],Movie.id==datas[1][1],Movie.id==datas[2][1]
+              ,Movie.id==datas[3][1],Movie.id==datas[4][1],Movie.id==datas[5][1],Movie.id==datas[6][1],
+             Movie.id==datas[7][1]))
+    elif datas.count()>=4:
+            movies=Movie.query.filter(_or(Movie.id==datas[0][1],Movie.id==datas[1][1],Movie.id==datas[2][1]
+                ,Movie.id==datas[3][1]))
+    else:
+        movies=None
+    return render_template('recommend.html',movies=movies)

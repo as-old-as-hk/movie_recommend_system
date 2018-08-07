@@ -310,7 +310,7 @@ class Ranking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id=db.Column(db.Integer)
     movie_id=db.Column(db.Integer)
-    rank=db.Column(db.Integer)
+    rank=db.Column(db.REAL)
 
 class Post(db.Model):
     __tablename__ = 'posts'

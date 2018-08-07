@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}sakura{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h1>
+</div>
+
+<div class="post-tabs">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{{ url_for('.show_all') }}">推荐</a></li>
+    </ul>
+    {% for movie in movies %}
+        <div class="movie">
+            <a href="{{url_for('.movie',movieid=movie.id)}}">
+                <img class="img-rounded" src="static/movie_image/{{movie.id}}.jpg " width="275" height="450">
+                <div class="desc"><b>{{movie.moviename}}</b></div>
+            </a>
+        </div>          
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
+{% endblock %}
